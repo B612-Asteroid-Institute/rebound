@@ -1,13 +1,14 @@
 try:
-    from setuptools import setup, Extension
+    from setuptools import Extension, setup
 except ImportError:
     # Legacy distutils import. No longer available on Pyton > 3.12
     from distutils.core import setup, Extension
-from codecs import open
+
 import os
 import sys
-
 import sysconfig
+from codecs import open
+
 suffix = sysconfig.get_config_var('EXT_SUFFIX')
 if suffix is None:
     suffix = ".so"
@@ -32,7 +33,8 @@ else:
     extra_compile_args=['-fstrict-aliasing', '-O3','-std=c99','-Wno-unknown-pragmas', ghash_arg, '-DLIBREBOUND', '-D_GNU_SOURCE', '-DSERVER', '-fPIC']
 
 # Option to disable FMA in CLANG. 
-FFP_CONTRACT_OFF = os.environ.get("FFP_CONTRACT_OFF", None)
+# FFP_CONTRACT_OFF = os.environ.get("FFP_CONTRACT_OFF", None)
+FFP_CONTRACT_OFF = True
 if FFP_CONTRACT_OFF:
     extra_compile_args.append('-ffp-contract=off')
 
